@@ -56,9 +56,19 @@
     align-items:center;
     justify-content:center;
     gap:10px;
-    margin-bottom:6px;
+    margin-bottom:10px;
   }
-  .logo-mark svg,.logo-mark img{width:38px;height:38px;flex:0 0 auto;object-fit:contain;transition:opacity .15s ease;}
+  .logo-mark img{
+    height:70px;
+    width:auto;
+    max-width:90%;
+    flex:0 0 auto;
+    object-fit:contain;
+    transition:opacity .15s ease;
+  }
+  @media (min-width:640px){
+    .logo-mark img{height:90px;}
+  }
   .hero h1{
     font-size:clamp(30px,7vw,44px);
     line-height:1;
@@ -69,6 +79,7 @@
     paint-order:stroke fill;
     letter-spacing:0.01em;
   }
+  .hero h1.sr-only-fallback{display:none;}
   .hero h1 .accent{color:var(--yellow);-webkit-text-stroke:2.5px var(--navy);}
   .hero p{
     font-size:14.5px;
@@ -122,6 +133,17 @@
   .tab.cat-event.active{background:var(--olive);color:#fff;border-color:var(--olive-deep);}
   .tab.cat-kalkulator.active{background:var(--yellow);color:var(--navy);border-color:var(--navy);}
   .tab:not(.active):hover{transform:translate(1px,1px);box-shadow:2px 3px 0 var(--navy);}
+
+  /* Tombol filter mode icon-only */
+  .tab.tab-icon-only{
+    padding:12px;
+    width:52px;
+    height:52px;
+    justify-content:center;
+    gap:0;
+  }
+  .tab.tab-icon-only .tab-icon{width:24px;height:24px;}
+  .tab-label-fallback{display:none;font-size:10px;line-height:1;}
 
   /* ---------- SUB FILTER (sub-kategori) ---------- */
   .sub-filter-bar{padding-top:2px;padding-bottom:2px;}
@@ -439,8 +461,8 @@
 <div class="hero">
   <div class="hero-inner">
     <div class="logo-mark">
-      <img id="headerLogo" src="assets/logo-saling-selling.png" alt="Saling Selling" onerror="this.style.display='none'">
-      <h1 id="headerTitle">Saling <span class="accent">Selling</span></h1>
+      <img id="headerLogo" src="assets/logo-saling-selling.png" alt="Saling Selling" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <h1 id="headerTitle" class="sr-only-fallback">Saling <span class="accent">Selling</span></h1>
     </div>
     <p id="headerTagline">Share the beauty, grow the journey — destinasi, penginapan, UMKM, dan agenda Trenggalek dalam satu genggaman.</p>
   </div>
@@ -549,14 +571,16 @@ const TAB_ICONS = {
 function updateHeader(catKey){
   const theme = HEADER_THEME[catKey] || HEADER_THEME.all;
   const logoEl = document.getElementById('headerLogo');
+  const titleEl = document.getElementById('headerTitle');
   logoEl.style.opacity = '0';
   setTimeout(()=>{
     logoEl.src = theme.logo;
     logoEl.style.display = '';
-    logoEl.onerror = () => { logoEl.style.display = 'none'; };
+    titleEl.style.display = 'none';
+    logoEl.onerror = () => { logoEl.style.display = 'none'; titleEl.style.display = 'block'; };
     logoEl.style.opacity = '1';
   }, 120);
-  document.getElementById('headerTitle').innerHTML = theme.title;
+  titleEl.innerHTML = theme.title;
   document.getElementById('headerTagline').textContent = theme.tagline;
 }
 
@@ -694,9 +718,9 @@ async function loadFromSheets(){
 function renderTabs(){
   const bar = document.getElementById('filterBar');
   bar.innerHTML = CATEGORIES.map(c => `
-    <button class="tab ${c.cls} ${active===c.key?'active':''}" data-cat="${c.key}">
-      <img class="tab-icon" src="${TAB_ICONS[c.key]||''}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
-      <span class="dot" style="display:none">&nbsp;</span>${c.label}
+    <button class="tab tab-icon-only ${c.cls} ${active===c.key?'active':''}" data-cat="${c.key}" title="${c.label}" aria-label="${c.label}">
+      <img class="tab-icon" src="${TAB_ICONS[c.key]||''}" alt="${c.label}" onerror="this.style.display='none'; this.parentElement.querySelector('.tab-label-fallback').style.display='block';">
+      <span class="tab-label-fallback">${c.label}</span>
     </button>
   `).join('');
   bar.querySelectorAll('.tab').forEach(btn=>{
