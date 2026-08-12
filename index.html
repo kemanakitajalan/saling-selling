@@ -306,9 +306,14 @@
   .detail-body .desc{font-size:14px;line-height:1.6;color:var(--navy);opacity:.85;font-weight:600;margin:0 0 14px;}
   .detail-price{font-size:18px;font-weight:800;color:var(--teal-deep);margin-bottom:16px;}
   .detail-price.clay{color:var(--pink-deep);}
-  .detail-action{
-    display:block;
+  .detail-actions{
+    display:flex;
+    gap:10px;
     margin:0 20px 20px;
+  }
+  .detail-action{
+    flex:1;
+    display:block;
     text-align:center;
     background:var(--navy);
     color:var(--cream);
@@ -485,7 +490,7 @@
   </div>
 </div>
 
-<footer>Data ditampilkan sebagai contoh (dummy) — akan tersambung ke Google Sheets langsung.</footer>
+<footer>Saling Selling — Ekosistem digital pariwisata &amp; UMKM Kabupaten Trenggalek.</footer>
 
 <div id="detailOverlay"></div>
 
@@ -620,7 +625,7 @@ const CAT_MAP = {
   umkm: { label:'UMKM', media:'media-umkm', mapItem: o => ({
     title:o.nama, meta:o.kategori, desc:o.deskripsi,
     hargaAngka:numFrom(o.harga), price:formatRupiah(numFrom(o.harga)), priceClass:'',
-    linkMaps:o.link_maps || '', kontak:''
+    linkMaps:o.link_maps || '', kontak:o.kontak || ''
   })},
   event: { label:'Event', media:'media-event', mapItem: o => ({
     title:o.nama, meta:`${o.tanggal} · ${o.lokasi}`, desc:o.deskripsi,
@@ -717,21 +722,33 @@ function renderGrid(){
 }
 
 /* ===== DETAIL OVERLAY ===== */
-function actionForItem(item){
+function kontakAction(kontak){
+  if(!kontak) return null;
+  const digits = kontak.replace(/[^\d]/g,'');
+  const waUrl = digits ? `https://wa.me/${digits.replace(/^0/,'62')}` : null;
+  return { label:'💬 Hubungi', href: waUrl || `tel:${kontak}` };
+}
+function mapsAction(linkMaps){
+  if(!linkMaps) return null;
+  return { label:'📍 Lihat di Maps', href:linkMaps };
+}
+
+// Mengembalikan array tombol aksi (bisa 0, 1, atau 2) sesuai data yang tersedia per kategori.
+function actionsForItem(item){
   if(item.cat==='booking'){
-    if(!item.kontak) return null;
-    const digits = item.kontak.replace(/[^\d]/g,'');
-    const waUrl = digits ? `https://wa.me/${digits.replace(/^0/,'62')}` : null;
-    return { label:'💬 Hubungi', href: waUrl || `tel:${item.kontak}` };
+    return [kontakAction(item.kontak)].filter(Boolean);
   }
-  // destinasi, umkm, event -> Maps
-  if(!item.linkMaps) return null;
-  return { label:'📍 Lihat di Maps', href:item.linkMaps };
+  if(item.cat==='umkm'){
+    // UMKM bisa punya keduanya: Maps dan Hubungi
+    return [mapsAction(item.linkMaps), kontakAction(item.kontak)].filter(Boolean);
+  }
+  // destinasi, event -> Maps
+  return [mapsAction(item.linkMaps)].filter(Boolean);
 }
 
 function openDetail(item){
   if(!item) return;
-  const action = actionForItem(item);
+  const actions = actionsForItem(item);
   const overlay = document.getElementById('detailOverlay');
   overlay.innerHTML = `
     <div class="detail-backdrop"></div>
@@ -747,7 +764,9 @@ function openDetail(item){
         <p class="desc">${item.desc}</p>
         <div class="detail-price ${item.priceClass}">${item.price}</div>
       </div>
-      ${action ? `<a class="detail-action" href="${action.href}" target="_blank" rel="noopener">${action.label}</a>` : ''}
+      ${actions.length ? `<div class="detail-actions">${actions.map(a=>
+        `<a class="detail-action" href="${a.href}" target="_blank" rel="noopener">${a.label}</a>`
+      ).join('')}</div>` : ''}
     </div>
   `;
   overlay.classList.add('open');
