@@ -59,15 +59,15 @@
     margin-bottom:10px;
   }
   .logo-mark img{
-    height:70px;
+    height:130px;
     width:auto;
-    max-width:90%;
+    max-width:70%;
     flex:0 0 auto;
     object-fit:contain;
     transition:opacity .15s ease;
   }
   @media (min-width:640px){
-    .logo-mark img{height:90px;}
+    .logo-mark img{height:170px;}
   }
   .hero h1{
     font-size:clamp(30px,7vw,44px);
@@ -98,9 +98,9 @@
   .filter-bar{
     max-width:960px;
     margin:0 auto;
-    padding:6px 20px 0;
+    padding:6px 20px 8px;
     display:flex;
-    gap:12px;
+    gap:20px;
     overflow-x:auto;
     scrollbar-width:none;
     justify-content:flex-start;
@@ -134,15 +134,36 @@
   .tab.cat-kalkulator.active{background:var(--yellow);color:var(--navy);border-color:var(--navy);}
   .tab:not(.active):hover{transform:translate(1px,1px);box-shadow:2px 3px 0 var(--navy);}
 
-  /* Tombol filter mode icon-only */
+  /* Tombol filter mode icon-only: polos, tanpa bingkai/bulatan */
   .tab.tab-icon-only{
-    padding:12px;
-    width:52px;
-    height:52px;
+    padding:6px;
+    width:auto;
+    height:auto;
     justify-content:center;
+    align-items:center;
     gap:0;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+    border-radius:12px;
+    opacity:.55;
+    transition:opacity .12s ease, transform .12s ease;
   }
-  .tab.tab-icon-only .tab-icon{width:24px;height:24px;}
+  .tab.tab-icon-only:active{transform:translate(1px,2px);box-shadow:none;}
+  .tab.tab-icon-only:not(.active):hover{transform:none;box-shadow:none;opacity:.8;}
+  .tab.tab-icon-only.active{opacity:1;background:transparent !important;color:inherit !important;border-color:transparent !important;position:relative;}
+  .tab.tab-icon-only.active::after{
+    content:'';
+    position:absolute;
+    bottom:-4px;
+    left:50%;
+    transform:translateX(-50%);
+    width:22px;
+    height:3px;
+    border-radius:3px;
+    background:var(--navy);
+  }
+  .tab.tab-icon-only .tab-icon{width:44px;height:44px;object-fit:contain;}
   .tab-label-fallback{display:none;font-size:10px;line-height:1;}
 
   /* ---------- SUB FILTER (sub-kategori) ---------- */
