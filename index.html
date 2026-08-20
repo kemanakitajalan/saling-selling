@@ -370,11 +370,22 @@
   .detail-media{
     aspect-ratio:16/9;
     position:relative;
-    display:flex;align-items:flex-start;justify-content:flex-end;
-    padding:14px;
+    overflow:hidden;
     border-bottom:2.5px solid var(--navy);
   }
+  .detail-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .detail-media .media-fallback{
+    width:100%;height:100%;
+    position:relative;
+    display:flex;align-items:flex-start;justify-content:flex-end;
+    padding:14px;
+  }
   .detail-media svg{width:52px;height:52px;position:absolute;left:16px;bottom:14px;z-index:2;}
+  .detail-media .cat-pill-onimg{
+    position:absolute;top:14px;right:14px;z-index:2;
+  }
   .detail-body{padding:18px 20px 6px;}
   .detail-body h2{font-size:22px;margin:0 0 6px;color:var(--navy);font-weight:800;}
   .detail-body .meta{font-size:12.5px;color:var(--navy);font-weight:700;opacity:.6;margin-bottom:10px;}
@@ -413,13 +424,24 @@
   .card-media{
     aspect-ratio:4/3;
     position:relative;
+    overflow:hidden;
+    border-bottom:2.5px solid var(--navy);
+  }
+  .card-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .card-media .media-fallback{
+    width:100%;height:100%;
+    position:relative;
     display:flex;
     align-items:flex-start;
     justify-content:flex-end;
     padding:10px;
-    border-bottom:2.5px solid var(--navy);
   }
   .card-media svg{width:40px;height:40px;position:absolute;left:12px;bottom:10px;z-index:2;}
+  .card-media .cat-pill-onimg{
+    position:absolute;top:10px;right:10px;z-index:2;
+  }
   .cat-pill{
     position:relative;z-index:2;
     background:rgba(255,255,255,0.92);
@@ -630,16 +652,16 @@ const CSV_SOURCES = {
 };
 
 const DATA = [
-  {cat:'destinasi', label:'Wisata', media:'media-destinasi', title:'Pantai Prigi', meta:'Watulimo · Alam', desc:'Teluk berpasir landai dengan pelabuhan nelayan aktif di sisi timur.', price:'Rp 5.000', priceClass:'', hargaAngka:5000, linkMaps:'', kontak:'', subCat:'Alam'},
-  {cat:'destinasi', label:'Wisata', media:'media-destinasi', title:'Goa Lowo', meta:'Watulimo · Alam', desc:'Salah satu gua terpanjang di Asia Tenggara, dihuni ribuan kelelawar.', price:'Rp 15.000', priceClass:'', hargaAngka:15000, linkMaps:'', kontak:'', subCat:'Alam'},
-  {cat:'destinasi', label:'Wisata', media:'media-destinasi', title:'Tari Turonggo Yakso', meta:'Dongko · Budaya', desc:'Kesenian kuda lumping khas Trenggalek dari lereng Gunung Wilis.', price:'Gratis', priceClass:'', hargaAngka:0, linkMaps:'', kontak:'', subCat:'Budaya'},
-  {cat:'booking', label:'Akomodasi', media:'media-booking', title:'Homestay Bukit Jaas', meta:'Bendungan · Homestay', desc:'2 kamar, pemandangan hutan jati, dekat akses ke Goa Lowo.', price:'Rp 180rb/malam', priceClass:'clay', hargaAngka:180000, linkMaps:'', kontak:'', subCat:'Homestay'},
-  {cat:'booking', label:'Akomodasi', media:'media-booking', title:'Grand Tenggerland Hotel', meta:'Trenggalek Kota · Hotel', desc:'24 kamar, sarapan termasuk, 5 menit dari alun-alun.', price:'Rp 350rb/malam', priceClass:'clay', hargaAngka:350000, linkMaps:'', kontak:'', subCat:'Hotel'},
-  {cat:'umkm', label:'Oleh-oleh', media:'media-umkm', title:'Kopi Rakyat Watulimo', meta:'UMKM · Kopi', desc:'Biji kopi robusta lereng selatan, diolah petani lokal.', price:'Rp 35.000', priceClass:'', hargaAngka:35000, linkMaps:'', kontak:'', subCat:'Produk UMKM'},
-  {cat:'umkm', label:'Oleh-oleh', media:'media-umkm', title:'Sale Pisang Bu Karti', meta:'UMKM · Camilan', desc:'Sale pisang tanpa pengawet, produksi rumahan turun-temurun.', price:'Rp 12.000', priceClass:'', hargaAngka:12000, linkMaps:'', kontak:'', subCat:'Produk UMKM'},
-  {cat:'umkm', label:'Kuliner', media:'media-umkm', title:'Warung Nasi Tiwul', meta:'Rumah Makan', desc:'Menu tiwul khas pesisir selatan dengan lauk ikan asap.', price:'Rp 18.000', priceClass:'', hargaAngka:18000, linkMaps:'', kontak:'', subCat:'Rumah Makan'},
-  {cat:'event', label:'Event', media:'media-event', title:'Larung Sembonyo', meta:'Sep 2026 · Prigi', desc:'Ritual larung sesaji tahunan nelayan Teluk Prigi.', price:'12 Sep', priceClass:'clay', hargaAngka:0, linkMaps:'', kontak:'', subCat:''},
-  {cat:'event', label:'Event', media:'media-event', title:'Festival Durian Trenggalek', meta:'Nov 2026 · Alun-alun', desc:'Pasar durian lokal, lomba kuliner, dan panggung budaya.', price:'20 Nov', priceClass:'clay', hargaAngka:0, linkMaps:'', kontak:'', subCat:''},
+  {cat:'destinasi', label:'Wisata', media:'media-destinasi', title:'Pantai Prigi', meta:'Watulimo · Alam', desc:'Teluk berpasir landai dengan pelabuhan nelayan aktif di sisi timur.', price:'Rp 5.000', priceClass:'', hargaAngka:5000, linkMaps:'', kontak:'', subCat:'Alam', imageUrl:''},
+  {cat:'destinasi', label:'Wisata', media:'media-destinasi', title:'Goa Lowo', meta:'Watulimo · Alam', desc:'Salah satu gua terpanjang di Asia Tenggara, dihuni ribuan kelelawar.', price:'Rp 15.000', priceClass:'', hargaAngka:15000, linkMaps:'', kontak:'', subCat:'Alam', imageUrl:''},
+  {cat:'destinasi', label:'Wisata', media:'media-destinasi', title:'Tari Turonggo Yakso', meta:'Dongko · Budaya', desc:'Kesenian kuda lumping khas Trenggalek dari lereng Gunung Wilis.', price:'Gratis', priceClass:'', hargaAngka:0, linkMaps:'', kontak:'', subCat:'Budaya', imageUrl:''},
+  {cat:'booking', label:'Akomodasi', media:'media-booking', title:'Homestay Bukit Jaas', meta:'Bendungan · Homestay', desc:'2 kamar, pemandangan hutan jati, dekat akses ke Goa Lowo.', price:'Rp 180rb/malam', priceClass:'clay', hargaAngka:180000, linkMaps:'', kontak:'', subCat:'Homestay', imageUrl:''},
+  {cat:'booking', label:'Akomodasi', media:'media-booking', title:'Grand Tenggerland Hotel', meta:'Trenggalek Kota · Hotel', desc:'24 kamar, sarapan termasuk, 5 menit dari alun-alun.', price:'Rp 350rb/malam', priceClass:'clay', hargaAngka:350000, linkMaps:'', kontak:'', subCat:'Hotel', imageUrl:''},
+  {cat:'umkm', label:'Oleh-oleh', media:'media-umkm', title:'Kopi Rakyat Watulimo', meta:'UMKM · Kopi', desc:'Biji kopi robusta lereng selatan, diolah petani lokal.', price:'Rp 35.000', priceClass:'', hargaAngka:35000, linkMaps:'', kontak:'', subCat:'Produk UMKM', imageUrl:''},
+  {cat:'umkm', label:'Oleh-oleh', media:'media-umkm', title:'Sale Pisang Bu Karti', meta:'UMKM · Camilan', desc:'Sale pisang tanpa pengawet, produksi rumahan turun-temurun.', price:'Rp 12.000', priceClass:'', hargaAngka:12000, linkMaps:'', kontak:'', subCat:'Produk UMKM', imageUrl:''},
+  {cat:'umkm', label:'Kuliner', media:'media-umkm', title:'Warung Nasi Tiwul', meta:'Rumah Makan', desc:'Menu tiwul khas pesisir selatan dengan lauk ikan asap.', price:'Rp 18.000', priceClass:'', hargaAngka:18000, linkMaps:'', kontak:'', subCat:'Rumah Makan', imageUrl:''},
+  {cat:'event', label:'Event', media:'media-event', title:'Larung Sembonyo', meta:'Sep 2026 · Prigi', desc:'Ritual larung sesaji tahunan nelayan Teluk Prigi.', price:'12 Sep', priceClass:'clay', hargaAngka:0, linkMaps:'', kontak:'', subCat:'', imageUrl:''},
+  {cat:'event', label:'Event', media:'media-event', title:'Festival Durian Trenggalek', meta:'Nov 2026 · Alun-alun', desc:'Pasar durian lokal, lomba kuliner, dan panggung budaya.', price:'20 Nov', priceClass:'clay', hargaAngka:0, linkMaps:'', kontak:'', subCat:'', imageUrl:''},
 ];
 
 const CATEGORIES = [
@@ -706,22 +728,22 @@ const CAT_MAP = {
   destinasi: { label:'Wisata', media:'media-destinasi', mapItem: o => ({
     title:o.nama, meta:`${o.lokasi} · ${o.kategori}`, desc:o.deskripsi,
     hargaAngka:numFrom(o.harga_tiket), price: numFrom(o.harga_tiket)>0 ? formatRupiah(numFrom(o.harga_tiket)) : 'Gratis', priceClass:'',
-    linkMaps:o.link_maps || '', kontak:'', subCat:o.kategori || ''
+    linkMaps:o.link_maps || '', kontak:'', subCat:o.kategori || '', imageUrl:o.image_url || ''
   })},
   booking: { label:'Akomodasi', media:'media-booking', mapItem: o => ({
     title:o.nama, meta:`${o.lokasi} · ${o.tipe}`, desc:o.deskripsi,
     hargaAngka:numFrom(o.harga_malam), price:`${formatRupiah(numFrom(o.harga_malam))}/malam`, priceClass:'clay',
-    linkMaps:'', kontak:o.kontak || '', subCat:o.tipe || ''
+    linkMaps:'', kontak:o.kontak || '', subCat:o.tipe || '', imageUrl:o.image_url || ''
   })},
   umkm: { label:'UMKM', media:'media-umkm', mapItem: o => ({
     title:o.nama, meta:o.kategori, desc:o.deskripsi,
     hargaAngka:numFrom(o.harga), price:formatRupiah(numFrom(o.harga)), priceClass:'',
-    linkMaps:o.link_maps || '', kontak:o.kontak || '', subCat:o.kategori || ''
+    linkMaps:o.link_maps || '', kontak:o.kontak || '', subCat:o.kategori || '', imageUrl:o.image_url || ''
   })},
   event: { label:'Event', media:'media-event', mapItem: o => ({
     title:o.nama, meta:`${o.tanggal} · ${o.lokasi}`, desc:o.deskripsi,
     hargaAngka:0, price:o.tanggal, priceClass:'clay',
-    linkMaps:o.link_maps || '', kontak:'', subCat:''
+    linkMaps:o.link_maps || '', kontak:'', subCat:'', imageUrl:o.image_url || ''
   })}
 };
 const SHEET_KEY_TO_CAT = { destinasi:'destinasi', booking:'booking', umkm:'umkm', event:'event' };
@@ -813,6 +835,27 @@ function renderView(){
 
 let currentGridItems = [];
 
+/* Menampilkan foto asli kalau imageUrl ada; kalau kosong/gagal load, fallback ke pola warna + icon. */
+/* Menampilkan foto asli kalau imageUrl ada; kalau kosong/gagal load, fallback ke pola warna + icon. */
+function cardMediaHTML(item){
+  if(item.imageUrl){
+    return `<img class="media-photo" src="${item.imageUrl}" alt="${item.title}" loading="lazy" data-cat="${item.cat}" data-label="${item.label}" data-media="${item.media}">
+      <span class="cat-pill cat-pill-onimg">${item.label}</span>`;
+  }
+  return `<div class="media-fallback ${item.media}">${ICONS[item.cat]}<span class="cat-pill">${item.label}</span></div>`;
+}
+
+/* Dipanggil setelah HTML disisipkan ke DOM: pasang fallback kalau foto gagal dimuat. */
+function bindMediaFallbacks(container){
+  container.querySelectorAll('img.media-photo').forEach(img=>{
+    img.addEventListener('error', () => {
+      const wrap = img.parentElement;
+      const cat = img.dataset.cat, label = img.dataset.label, media = img.dataset.media;
+      wrap.innerHTML = `<div class="media-fallback ${media}">${ICONS[cat]}<span class="cat-pill">${label}</span></div>`;
+    }, { once:true });
+  });
+}
+
 function renderGrid(){
   let items = active==='all' ? DATA : DATA.filter(d=>d.cat===active);
   if(activeSub !== 'all'){
@@ -822,9 +865,8 @@ function renderGrid(){
   document.getElementById('countLine').textContent = `${items.length} item ditampilkan`;
   document.getElementById('grid').innerHTML = items.map((item,i) => `
     <div class="card" data-idx="${i}" tabindex="0" role="button">
-      <div class="card-media ${item.media}">
-        ${ICONS[item.cat]}
-        <span class="cat-pill">${item.label}</span>
+      <div class="card-media">
+        ${cardMediaHTML(item)}
       </div>
       <div class="card-body">
         <h3>${item.title}</h3>
@@ -837,6 +879,7 @@ function renderGrid(){
       </div>
     </div>
   `).join('');
+  bindMediaFallbacks(document.getElementById('grid'));
   document.getElementById('grid').querySelectorAll('.card').forEach(card=>{
     const open = () => openDetail(currentGridItems[Number(card.dataset.idx)]);
     card.addEventListener('click', open);
@@ -877,9 +920,8 @@ function openDetail(item){
     <div class="detail-backdrop"></div>
     <div class="detail-sheet">
       <button type="button" class="detail-close" aria-label="Tutup">×</button>
-      <div class="detail-media ${item.media}">
-        ${ICONS[item.cat]}
-        <span class="cat-pill">${item.label}</span>
+      <div class="detail-media">
+        ${cardMediaHTML(item)}
       </div>
       <div class="detail-body">
         <h2>${item.title}</h2>
@@ -893,6 +935,7 @@ function openDetail(item){
     </div>
   `;
   overlay.classList.add('open');
+  bindMediaFallbacks(overlay);
   overlay.querySelector('.detail-backdrop').addEventListener('click', closeDetail);
   overlay.querySelector('.detail-close').addEventListener('click', closeDetail);
 }
@@ -916,10 +959,10 @@ function formatRupiah(n){
 /* ===== LAYANAN PARIWISATA ===== */
 /* Ganti link di bawah sesuai kebutuhan. Nomor WA: pakai format 62xxxxxxxxxx (tanpa 0 di depan). */
 const LAYANAN_ITEMS = [
-  { icon:'📋', title:'Ijin Kegiatan', desc:'Ajukan izin kegiatan pariwisata via WhatsApp.', href:'https://wa.me/628123244401' },
-  { icon:'📄', title:'Persyaratan Perijinan Pariwisata', desc:'Lihat dokumen persyaratan lengkap.', href:'https://drive.google.com/drive/folders/1muo8X2E8gAh5djf36wd9CtSpcWPbn8i0' },
-  { icon:'📜', title:'Peraturan Pariwisata', desc:'Baca peraturan pariwisata yang berlaku.', href:'https://drive.google.com/drive/folders/1N8lelF78rzgrOcboxfXhvhhMB37MoxqI' },
-  { icon:'💬', title:'Contact Us', desc:'Hubungi kami langsung via WhatsApp.', href:'https://wa.me/6282228087909' },
+  { icon:'📋', title:'Ijin Kegiatan', desc:'Ajukan izin kegiatan pariwisata via WhatsApp.', href:'https://wa.me/62812xxxxxxx' },
+  { icon:'📄', title:'Persyaratan Perijinan Pariwisata', desc:'Lihat dokumen persyaratan lengkap.', href:'https://drive.google.com/PLACEHOLDER-PERSYARATAN' },
+  { icon:'📜', title:'Peraturan Pariwisata', desc:'Baca peraturan pariwisata yang berlaku.', href:'https://drive.google.com/PLACEHOLDER-PERATURAN' },
+  { icon:'💬', title:'Contact Us', desc:'Hubungi kami langsung via WhatsApp.', href:'https://wa.me/62812xxxxxxx' },
 ];
 
 function renderLayanan(){
